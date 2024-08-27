@@ -38,6 +38,8 @@ const max = 100; // Maximum number to create random numbers
 let second = 3; // The initialized number to countdown
 const generatedNumbers = 5; // Times to generate random numbers
 const randomNumbers = []; // Array to save diferent random numbers
+const userNumbers = []; // Array to save user numbers
+const commonNumbers = []; // Save the common numbers betwwen user and random nr
 
 // Define functions
 const onCountDown = () => (counterElement.innerText = --second); // Create a function to decrement the second and print in page
@@ -80,8 +82,7 @@ const createElements = (typeOf) => {
  * @param {*} toInclude // Element yout want to chek if is included to another element
  * @returns {boolean} // Return true or fals
  */
-const isIncludes = (includeIn, toInclude) =>
-  includeIn.includes(toInclude) ? true : false;
+const isIncludes = (includeIn, toInclude) => includeIn.includes(toInclude);
 
 // --- Proccesing phase
 // Create loop to generate diferent randomNumbers based on generatedNumbers variable
@@ -104,7 +105,7 @@ setTimeout(() => {
   for (let i = 0; i < generatedNumbers; i++) {
     const input = createElements("input"); // Create input form
     input.setAttribute("type", "number"); // Add type: number attribute
-    input.setAttribute("required", ""); // Add required attribute
+    input.required = true; // Add required attribute
     input.classList.add("form-control"); // Add class in new element
     inputsFormElement.appendChild(input); // Append child in dom element
   }
@@ -120,18 +121,23 @@ setTimeout(() => {
 
   // Create a click btn event
   formBtnElement.addEventListener("click", () => {
+    message = "You have matched";
     // Craete a loop to pass in each input element
     for (let i = 0; i < inputElements.length; i++) {
       const inputElement = inputElements[i]; // Save each input element
-      !isIncludes(randomNumbers, parseInt(inputElement.value)) // Compare the user inputs with random numbers
-        ? (message = "Your numbers is not match, Your memory is weak") // message if not match
-        : (message = "Congatulations your memory is strong"); // Message if the user inputs match the numbers random
+      userNumbers.push(parseInt(inputElement.value)); // Save in user number array
+
+      // check if user number is included in random number
+      if (isIncludes(randomNumbers, userNumbers[i]))
+        commonNumbers.push(userNumbers[i]); // add in common numbers array
     }
+
     hideElemets(inputsFormElement); // Hide inputs form element
     messageElement.classList.add("fs-2"); // Add a class to change font size message element
-    messageElement.innerText = message; // Print in page the message
+    messageElement.innerText = `${message} ${commonNumbers.length} numbers : ${commonNumbers}`; // Print in page the message
     formBtnElement.innerText = "Retry"; // Change the text in btn
 
     console.log(randomNumbers); // Test print in console
+    console.log(commonNumbers); // test print
   });
 }, second * 1000);
