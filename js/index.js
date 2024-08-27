@@ -125,6 +125,7 @@ setTimeout(() => {
     // Craete a loop to pass in each input element
     for (let i = 0; i < inputElements.length; i++) {
       const inputElement = inputElements[i]; // Save each input element
+
       userNumbers.push(parseInt(inputElement.value)); // Save in user number array
 
       // check if user number is included in random number
@@ -135,7 +136,7 @@ setTimeout(() => {
     hideElemets(inputsFormElement); // Hide inputs form element
     messageElement.classList.add("fs-2"); // Add a class to change font size message element
     messageElement.innerText = `${message} ${commonNumbers.length} numbers : ${commonNumbers}`; // Print in page the message
-    formBtnElement.innerText = "Retry"; // Change the text in btn
+    formBtnElement.disabled = true; // Change the text in btn
 
     console.log(randomNumbers); // Test print in console
     console.log(commonNumbers); // test print
