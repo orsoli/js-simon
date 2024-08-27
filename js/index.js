@@ -24,14 +24,16 @@
 // Retrieve elemnts from DOM
 const messageElement = document.getElementById("message");
 const timerFieldElement = document.querySelector(".timer-field");
-const counterElement = document.querySelector(".counter");
-const randomNumbersElement = document.querySelector(".random-numbers");
+const counterElement = timerFieldElement.querySelector(".counter");
+const randomNumbersElement = timerFieldElement.querySelector(".random-numbers");
+const userFieldElement = document.querySelector(".user-field");
 const inputsFormElement = document.getElementById("inputs-form");
 
 // Create variables
+let message; // Mesage variable
 const min = 1; // Minimum number to create random numbers
 const max = 100; // Maximum number to create random numbers
-let second = 30; // The initialized number to countdown
+let second = 3; // The initialized number to countdown
 const generatedNumbers = 5; // Times to generate random numbers
 const randomNumbers = []; // Array to save diferent random numbers
 
@@ -49,7 +51,7 @@ const generateRandomNumbers = (max, min) =>
 
 // --- Proccesing phase
 // Create loop to generate diferent randomNumbers based on generatedNumbers variable
-while (randomNumbers.length <= generatedNumbers) {
+while (randomNumbers.length < generatedNumbers) {
   const randomNumber = generateRandomNumbers(max, min); // Generate random number
   if (!randomNumbers.includes(randomNumber)) randomNumbers.push(randomNumber); // Save in array if is not saved before
   console.log(randomNumber); // test print in concole
@@ -58,5 +60,18 @@ while (randomNumbers.length <= generatedNumbers) {
 // Print in page random numbers
 randomNumbersElement.innerText = randomNumbers;
 // Start 30 secont timer in page
-const interva = setInterval(onCountDown, 1000);
-// Stop the counter
+const interval = setInterval(onCountDown, 1000);
+
+// Create time out
+setTimeout(() => {
+  clearInterval(interval); // Stop counting down when second = 0
+  // Hidde timer field
+  timerFieldElement.classList.remove("d-flex"); // remove d-flex class from timerFieldElement
+  timerFieldElement.classList.add("d-none"); // Add d-none class from timerFieldElement
+  // Show user field
+  userFieldElement.classList.remove("d-none"); // Remove d-none class from timerFieldElement
+  userFieldElement.classList.add("d-flex"); // Add d-none class from timerFieldElement
+  // Change message
+  message = "Insert the numbers you have memorized and confirm to match";
+  messageElement.innerText = message;
+}, second * 1000);
