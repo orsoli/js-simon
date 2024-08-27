@@ -46,3 +46,13 @@ const onCountDown = () => (counterElement.innerText = --second); // Create a fun
  */
 const generateRandomNumbers = (max, min) =>
   Math.floor(Math.random() * (max - min) + 1) + min;
+
+// --- Proccesing phase
+// Create loop to generate diferent randomNumbers based on generatedNumbers variable
+while (randomNumbers.length === generatedNumbers) {
+  const randomNumber = generateRandomNumbers(max, min); // Generate random number
+  if (randomNumbers.includes(randomNumber)) randomNumbers.push(randomNumber); // Save in array if is not saved before
+}
+
+// Start 30 secont timer in page
+setInterval(onCountDown, 1000);
