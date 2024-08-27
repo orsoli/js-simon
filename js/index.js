@@ -28,6 +28,7 @@ const counterElement = timerFieldElement.querySelector(".counter");
 const randomNumbersElement = timerFieldElement.querySelector(".random-numbers");
 const userFieldElement = document.querySelector(".user-field");
 const inputsFormElement = document.getElementById("inputs-form");
+const formBtnElement = document.getElementById("form-btn");
 
 // Create variables
 let message; // Mesage variable
@@ -39,6 +40,7 @@ const randomNumbers = []; // Array to save diferent random numbers
 
 // Define functions
 const onCountDown = () => (counterElement.innerText = --second); // Create a function to decrement the second and print in page
+
 // Function to generate a rendom nr
 /**
  *
@@ -48,6 +50,27 @@ const onCountDown = () => (counterElement.innerText = --second); // Create a fun
  */
 const generateRandomNumbers = (max, min) =>
   Math.floor(Math.random() * (max - min) + 1) + min;
+
+// Function to hidde elements
+const hideElemets = (element) => {
+  element.classList.remove("d-flex"); // remove d-flex class from timerFieldElement
+  element.classList.add("d-none"); // Add d-none class from timerFieldElement
+};
+// Function to show elements
+const showElemets = (element) => {
+  element.classList.remove("d-none"); // Remove d-none class from timerFieldElement
+  element.classList.add("d-flex"); // Add d-none class from timerFieldElement
+};
+// Function to create elements
+/**
+ *
+ * @param {string} typeOf
+ * @returns
+ */
+const createElements = (typeOf) => {
+  newElement = document.createElement(typeOf);
+  return newElement;
+};
 
 // --- Proccesing phase
 // Create loop to generate diferent randomNumbers based on generatedNumbers variable
@@ -65,13 +88,38 @@ const interval = setInterval(onCountDown, 1000);
 // Create time out
 setTimeout(() => {
   clearInterval(interval); // Stop counting down when second = 0
-  // Hidde timer field
-  timerFieldElement.classList.remove("d-flex"); // remove d-flex class from timerFieldElement
-  timerFieldElement.classList.add("d-none"); // Add d-none class from timerFieldElement
+  // Create inputs element based on generateNumbers
+  for (let i = 0; i < generatedNumbers; i++) {
+    const input = createElements("input"); // Create input form
+    input.setAttribute("type", "number"); // Add type: number attribute
+    input.setAttribute("required", ""); // Add required attribute
+    input.classList.add("form-control"); // Add class in new element
+    inputsFormElement.appendChild(input); // Append child in dom element
+  }
+  // Hide timerField
+  hideElemets(timerFieldElement);
   // Show user field
-  userFieldElement.classList.remove("d-none"); // Remove d-none class from timerFieldElement
-  userFieldElement.classList.add("d-flex"); // Add d-none class from timerFieldElement
+  showElemets(userFieldElement);
   // Change message
   message = "Insert the numbers you have memorized and confirm to match";
   messageElement.innerText = message;
+
+  const inputElements = document.querySelectorAll("input"); // Retrieve from Dom all Input elements
+
+  // Create a click btn event
+  formBtnElement.addEventListener("click", () => {
+    // Craete a loop to pass in each input element
+    for (let i = 0; i < inputElements.length; i++) {
+      const inputElement = inputElements[i]; // Save each input element
+      !randomNumbers.includes(parseInt(inputElement.value)) // Compare the user inputs with random numbers
+        ? (message = "Your numbers is not match, Your memory is weak") // message if not match
+        : (message = "Congatulations your memory is strong"); // Message if the user inputs match the numbers random
+    }
+    hideElemets(inputsFormElement); // Hide inputs form element
+    messageElement.classList.add("fs-2"); // Add a class to change font size message element
+    messageElement.innerText = message; // Print in page the message
+    formBtnElement.innerText = "Retry"; // Change the text in btn
+
+    console.log(randomNumbers); // Test print in console
+  });
 }, second * 1000);
