@@ -2,9 +2,9 @@
     - Prepare html Css
     JS
     - Retrieve interested elements from DOM
-    - Start 30 seconds timer
     - Prepare a function to generate random nr
     - Create a loop to generate 5 different random nr and save in randomNumbers array variable already created
+    - Start 30 seconds timer
     - Print the randomNumbers in page at random-numbers element
 
     - When time finish, second = 0 stop timer, hide timer field
@@ -49,10 +49,14 @@ const generateRandomNumbers = (max, min) =>
 
 // --- Proccesing phase
 // Create loop to generate diferent randomNumbers based on generatedNumbers variable
-while (randomNumbers.length === generatedNumbers) {
+while (randomNumbers.length <= generatedNumbers) {
   const randomNumber = generateRandomNumbers(max, min); // Generate random number
-  if (randomNumbers.includes(randomNumber)) randomNumbers.push(randomNumber); // Save in array if is not saved before
+  if (!randomNumbers.includes(randomNumber)) randomNumbers.push(randomNumber); // Save in array if is not saved before
+  console.log(randomNumber); // test print in concole
 }
 
+// Print in page random numbers
+randomNumbersElement.innerText = randomNumbers;
 // Start 30 secont timer in page
-setInterval(onCountDown, 1000);
+const interva = setInterval(onCountDown, 1000);
+// Stop the counter
