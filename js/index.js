@@ -18,6 +18,7 @@
     - Prepare result message and print in page in message element
     - Hidden inputs-form 
     - Change the button in restart buton
+    - Bonus Validation
 */
 
 // --- Preparation Phase
@@ -72,11 +73,22 @@ const createElements = (typeOf) => {
   return newElement;
 };
 
+// Flag function to check if is includes
+/**
+ *
+ * @param {*} includeIn // Element you want to chek if other element is included in.
+ * @param {*} toInclude // Element yout want to chek if is included to another element
+ * @returns {boolean} // Return true or fals
+ */
+const isIncludes = (includeIn, toInclude) =>
+  includeIn.includes(toInclude) ? true : false;
+
 // --- Proccesing phase
 // Create loop to generate diferent randomNumbers based on generatedNumbers variable
 while (randomNumbers.length < generatedNumbers) {
   const randomNumber = generateRandomNumbers(max, min); // Generate random number
-  if (!randomNumbers.includes(randomNumber)) randomNumbers.push(randomNumber); // Save in array if is not saved before
+  if (!isIncludes(randomNumbers, randomNumber))
+    randomNumbers.push(randomNumber); // Save in array if is not saved before
   console.log(randomNumber); // test print in concole
 }
 
@@ -111,7 +123,7 @@ setTimeout(() => {
     // Craete a loop to pass in each input element
     for (let i = 0; i < inputElements.length; i++) {
       const inputElement = inputElements[i]; // Save each input element
-      !randomNumbers.includes(parseInt(inputElement.value)) // Compare the user inputs with random numbers
+      !isIncludes(randomNumbers, parseInt(inputElement.value)) // Compare the user inputs with random numbers
         ? (message = "Your numbers is not match, Your memory is weak") // message if not match
         : (message = "Congatulations your memory is strong"); // Message if the user inputs match the numbers random
     }
