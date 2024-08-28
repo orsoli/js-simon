@@ -35,7 +35,7 @@ const formBtnElement = document.getElementById("form-btn");
 let message; // Mesage variable
 const min = 1; // Minimum number to create random numbers
 const max = 100; // Maximum number to create random numbers
-let second = 3; // The initialized number to countdown
+let second = 30; // The initialized number to countdown
 const generatedNumbers = 5; // Times to generate random numbers
 const randomNumbers = []; // Array to save diferent random numbers
 const userNumbers = []; // Array to save user numbers
